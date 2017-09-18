@@ -1,0 +1,21 @@
+\section*{Turing-Vollständigkeit}
+LOOP in RISC-LOOP: Allgemein "ubersetzen wir $x_j:=x_i\pm c$ durch
+\begin{itemize}
+\item $i$ {\tt INCR} Befehle
+\item Zugriff $r:=x_i$
+\item $i$ {\tt DECR} Befehle
+\item Rechnung $r:=r\pm c$
+\item $j$ {\tt INCR} Befehle
+
+\item Speicherung $x_j:=r$
+\item $j$ {\tt DECR} Befehle
+\end{itemize}
+Analog "ubersetzen wir $\text{\tt LOOP} x_i$ durch
+\begin{itemize}
+\item $i$ {\tt INCR} Befehle
+\item Zugriff $r:=x_i$
+\item $i$ {\tt DECR} Befehle
+\item Schleifenbefehl $\text{\tt LOOP }r$.
+\end{itemize}
+Auf diese Weise l"asst sich jedes LOOP-Programm in eine RISC-LOOP Programm
+"ubersetzen, RISC-LOOP ist also mindestens so leistungsf"ahig wie LOOP. (LOOP ist jedoch nicht Turing-Vollständig)

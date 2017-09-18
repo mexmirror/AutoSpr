@@ -1,0 +1,64 @@
+\documentclass[a4paper]{article}
+\usepackage[margin=1cm]{geometry}
+\usepackage[ngerman]{babel}
+\usepackage{DejaVuSerifCondensed}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath,amsfonts}
+\usepackage{multicol}
+\usepackage[utf8]{inputenc}
+\usepackage[table,xcdraw]{xcolor}
+\usepackage{verbatim}
+\usepackage{tikz}
+\usepackage{enumitem}
+
+% TIKZ Libraries
+\usetikzlibrary{er, positioning, backgrounds, automata, arrows}
+% Turn off header and footer
+\pagestyle{empty}
+\setlist[itemize]{leftmargin=*, topsep=0pt, itemsep=2pt}
+\setlist[enumerate]{leftmargin=*, topsep=0pt, itemsep=2pt}
+% Redefine section commands to use less space
+\makeatletter
+\renewcommand{\section}{\@startsection{section}{1}{0mm}%
+                                {-1ex plus -.5ex minus -.2ex}%
+                                {0.5ex plus .2ex}%x
+                                {\normalfont\large\bfseries}}
+\renewcommand{\subsection}{\@startsection{subsection}{2}{0mm}%
+                                {-1explus -.5ex minus -.2ex}%
+                                {0.5ex plus .2ex}%
+                                {\normalfont\normalsize\bfseries}}
+\renewcommand{\subsubsection}{\@startsection{subsubsection}{3}{0mm}%
+                                {-1ex plus -.5ex minus -.2ex}%
+                                {1ex plus .2ex}%
+                                {\normalfont\small\bfseries}}
+\renewcommand{\paragraph}{%
+  \@startsection{paragraph}{4}%
+  {\z@}{1ex \@plus 1ex \@minus .2ex}{-1em}%
+  {\normalfont\normalsize\bfseries}%
+}
+\makeatother
+
+% Define BibTeX command
+\def\BibTeX{{\rm B\kern-.05em{\sc i\kern-.025em b}\kern-.08em
+    T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
+
+% Don't print section numbers
+\setcounter{secnumdepth}{0}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0pt plus 0.5ex}
+
+\title{AutoSpr Prüfungszusammenfassung}
+\author{Oliviero Chiodo}
+\date{August 2017}
+
+\begin{document}
+\begin{multicols*}{3}
+\input{nea}
+\input{stack}
+\input{turingmachine}
+\input{decideability}
+\input{complexity}
+\input{turing-completeness}
+\end{multicols*}
+\end{document}

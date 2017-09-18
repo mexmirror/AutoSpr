@@ -1,0 +1,32 @@
+\section*{Turing Maschine} 
+Formale Definition einer TM
+\begin{align*}
+    M = (Q, \Sigma, \Gamma, \delta, q_0, q_{accept}, q_{reject})
+\end{align*}
+\begin{itemize}
+    \item \(Q\): Endliche Menge von Zuständen
+    \item \(\Sigma\): Endliche Menge des Input-Alphabets (ohne \textvisiblespace)
+    \item \(\Gamma\): Endliche Menge des Bandalphabets (mit \textvisiblespace), \(\Sigma \subset \Gamma\)
+    \item \(\delta\): \(Q \times \Gamma \rightarrow Q \times \Gamma \times \{L, R\}\) als Übergangsfunktion
+\end{itemize}
+Die Turing Maschine verwendet ein oder mehrere unendlich Lange Bänder um Sprachen erkennen zu können.
+\begin{tikzpicture}[->,>=stealth',shorten >=1pt,auto,node distance=3cm,semithick]
+  \tikzstyle{every state}=[fill=none,draw=black,text=black]
+
+  \node[state]                   (A)              {$q_0$};
+  \node[state]                   (B) [right of=A] {$q$};
+
+  \path (A)  edge  node {$a \rightarrow b,d$} (B);
+\end{tikzpicture}\\
+Von Zustand \(q_0\) wird in Zustand \(q\) gewechselt, wenn unter dem Kopf ein \(a\) gelesen wird. Dabei wird das \(a\) mit einem \(b\) überschrieben und der Kopf in Richtung \(d\) bewegt. 
+\section*{Berechenbarkeit}
+Sei \(\Sigma\) ein festes Alphabet, dann sind folgende Mengen abzählbar unendlich:
+\begin{enumerate}
+    \item Die Menge aller deterministischen endlichen Automaten.
+    \item Die Menge aller nichtdeterministischen endlichen Automaten.
+    \item Die Menge der regulären Sprachen.
+    \item Die Menge aller kontextfreien Grammatiken.
+    \item Die Menge aller kontextfreien Sprachen.
+    \item Die Menge aller Stackautomaten.
+    \item Die Menge aller Turingmaschinen.
+\end{enumerate}

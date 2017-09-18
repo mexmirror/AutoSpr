@@ -1,0 +1,101 @@
+\section*{DEA}
+Formale Definition eines DEA:
+\begin{align*}
+A = (Q, \Sigma, \delta, q_0, F)
+\end{align*}
+\begin{itemize}
+    \item \(Q\): Endliche Menge von Zuständen
+    \item \(\Sigma\): Alphabet
+    \item \(\delta\): \(Q \times \Sigma \rightarrow Q\) Übergangsfunktion
+    \item \(q_0 \in Q\): Startzustand
+    \item \(F \subset Q\): Menge der Akzeptierzustände
+\end{itemize}
+\section*{NEA}
+\begin{align*}
+A = (Q, \Sigma, \delta, q_0, F)
+\end{align*}
+\begin{itemize}
+    \item \(Q\): Endliche Menge von Zuständen
+    \item \(\Sigma\): Alphabet
+    \item \(\delta\): \(Q \times (\Sigma \cup \{\varepsilon\} )\rightarrow P(Q)\) Übergangsfunktion
+    \item \(q_0 \in Q\): Startzustand
+    \item \(F \subset Q\): Menge der Akzeptierzustände
+\end{itemize}
+\paragraph{DEA minimieren}
+\begin{enumerate}
+    \item Tabelle aller Zustandspaare \(\{q, q'\}, q \neq q' \) erstellen
+    \item Markiere alle Paare: \(\{q, q'\}\) mit \(q \in F\) und \(q' \notin F\)
+    \item Wiederhole folgende Schritte solange neue Markierungen hinzukommen
+    \begin{enumerate}[label*=\arabic*.]
+        \item Für jedes unmarkierte Paar \(\{q, q'\}\) und jedes Zeichen \(a \in \Sigma\): \\
+            Wenn \(\{\delta(q, a), \delta(q',a)\}\) markiert ist, dann markiere \(\{q, q'\}\)
+    \end{enumerate}
+    \item Verschmelze unmarkierte Zustände
+\end{enumerate}
+\subsection*{DEA: Durch 3 Teilbare Zahlen}
+\begin{tikzpicture}[->,>=stealth',shorten >=1pt,auto,node distance=2cm,semithick]
+  \tikzstyle{every state}=[fill=none,draw=black,text=black]
+
+  \node[initial,state,accepting] (A)              {$0$};
+  \node[state]                   (B) [right of=A] {$1$};
+  \node[state]                   (C) [below of=B] {$2$};
+
+  \path (A)  edge [bend left]  node {1} (B)
+             edge [loop above] node {0} (A)
+        (B)  edge [bend left]  node {0} (C)
+             edge [bend left]  node {1} (A)
+        (C)  edge [bend left]  node {0} (B)
+             edge [loop right] node {1} (C);
+\end{tikzpicture}
+\subsection*{NEA/DEA zu Regulärem Ausdruck}
+\begin{enumerate}
+    \item Neue Start- und Akzeptierzustände
+    \item Zustände nacheinander entfernen
+\end{enumerate}
+\begin{tikzpicture}[->,>=stealth',shorten >=1pt,auto,node distance=2cm,semithick]
+  \tikzstyle{every state}=[fill=none,draw=black,text=black]
+
+  \node[initial,state,accepting] (A)              {$0$};
+  \node[state]                   (B) [right of=A] {$1$};
+
+  \path (A)  edge [bend left]  node {1} (B)
+             edge [loop above] node {0} (A)
+        (B)  edge [bend left]  node {1} (A)
+             edge [loop above] node {0} (B);
+\end{tikzpicture}
+\begin{tikzpicture}[->,>=stealth',shorten >=1pt,auto,node distance=1.5cm,semithick]
+  \tikzstyle{every state}=[fill=none,draw=black,text=black]
+
+  \node[initial,state] (S)                        {$S$};
+  \node[state]                   (A) [right of=S] {$1$};
+  \node[state]                   (B) [right of=A] {$1$};
+  \node[state, accepting]        (E) [below of=A] {$A$};
+
+  \path (A)  edge [bend left]  node {1} (B)
+             edge [loop above] node {0} (A)
+             edge              node {$\epsilon$} (E)
+        (B)  edge [bend left]  node {1} (A)
+             edge [loop above] node {0} (B)
+        (S)  edge              node {$\epsilon$} (A);
+\end{tikzpicture}
+\begin{tikzpicture}[->,>=stealth',shorten >=1pt,auto,node distance=1.5cm,semithick]
+  \tikzstyle{every state}=[fill=none,draw=black,text=black]
+
+  \node[initial,state] (S)                        {$S$};
+  \node[state]                   (A) [right of=S] {$1$};
+  \node[state, accepting]        (E) [below of=A] {$A$};
+
+  \path (A) edge [loop above]   node {$0 \mid 10^*1$} (A)
+             edge              node {$\epsilon$} (E)
+        (S)  edge              node {$\epsilon$} (A);
+\end{tikzpicture}
+Der Reguläre Ausdruck lautet: \((0 \mid 10^*1)^*\)
+\paragraph{$L_n$ Sprachen} Die Sprachen welche folgend Definiert werden sind regulär:
+\begin{align*}
+    L_{ik} &= \{ w \in \Sigma^* \mid |w|_i \cong k \mod n \} \\
+           &= L(i^k(i^n)^*)
+\end{align*}
+Die Sprache \(L_{0k} \cap L_{1k} \) besteht aus Wörtern, in denen die Anzahl der 0 und den 1 den Rest \(k\) bei Teilung durch \(n\) haben. Als Durchschnitt regulärer Sprachen ist diese auch regulär. In der Sprache \(L_n\) sind alle solche Wörter mit den Resten \(k=0, \dots , n-1\):
+\begin{align*}
+    L_n = \bigcup_{k=0}^{n-1} L_{0k} \cap L_{1k}
+\end{align*}

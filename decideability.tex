@@ -1,0 +1,116 @@
+\section*{Entscheidbarkeit}
+Eine Sprache ist \textbf{Turing-erkennbar} wenn es eine TM gibt, welche anhält und nur die Wörter der Sprache akzeptiert. Wörter welche nicht in der Sprache sind, werden von der TM entweder verworfen oder die \textit{TM hält nie an}. \newline
+Eine Sprache ist \textbf{Turing-entscheidbar} wenn es eine TM gibt, welche Wörter in der Sprache akzeptiert und Wörter welche nicht in der Sprache sind, verwirft.
+\paragraph{Entscheider} Ein Entscheider ist eine Turingmaschine, die auf jedem Input \(w \in \Sigma^*\) anhält. Eine Sprache heisst entscheidbar, wenn eine Entscheider sie erkennt. \newline
+Eine nicht deterministische Turingmaschine ist ein Entscheider, wenn jede mögliche Berechnungsgeschichte terminiert. Eine Sprache ist enscheidbar, wenn sie von einer nicht deterministischen Turingmaschine entschieden wird.
+\paragraph{Verifizierer} Ein Verifizierer für die Sprache \(A\) ist eine Turingmaschine \(V\) mit 
+\begin{align*}
+    A &= \{w \mid \exists c \in C^* \;\text{so dass}\; V\langle w,c \rangle \\ 
+    &\text{akzeptiert}\}
+\end{align*}
+wobei \(C\) eine endliche Menge ist. Ein Verifizierer heisst polynomiell, wenn seine Laufzeit polynomiell ist in der Länge des Wortes \(w\). \textit{Gibt es einen polynomiellen Verifizierer, so ist die Sprache in NP.
+}\\
+Falls ein Verifizierer existiert, der das Problem in polynomieller Zeit verifizieren kann, kann das Problem auf einer nicht deterministischen Turingmaschine in polynomieller Zeit gelöst werden.
+\paragraph{Akzeptanzproblem} Gesucht ist ein Automat, der entscheidet ob ein anderer Automat ein Input akzeptiert.
+\begin{align*}
+    A_{\text{DEA}} &= \{ \langle B, w \rangle \mid \\ 
+    &\text{\textit{B} ist ein DEA und akzeptiert \textit{w}} \} \\
+    A_{\text{NEA}} &= \{ \langle B, w \rangle \mid \\ 
+    &\text{\textit{B} ist ein NEA und akzeptiert \textit{w}} \} \\
+    A_{\text{REX}} &= \{ \langle R, w \rangle \mid \\
+    &\text{\textit{R} ist ein REX und akzeptiert \textit{w}} \} \\
+    A_{\text{CFG}} &= \{ \langle G, w \rangle \mid \text{die CFG \textit{G} erzeugt \textit{w}}\} \\
+    A_{\text{TM}} &= \{ \langle M, w \rangle \mid \\
+    &\text{\textit{M} ist eine TM und erkennt \textit{w}} \}
+\end{align*}
+\textit{DEA, NEA, REX} (Regular Expression) und \textit{CFG} sind entscheidbar, \textit{TM} nicht.
+\paragraph{Gleichheitsproblem} Gesucht ist ein Automat der entscheidet, ob zwei andere Automaten die gleiche Sprache akzeptieren.
+\begin{align*}
+    EQ_\text{DEA} &= \{ \langle A, B \rangle \mid \text{\textit{A}, \textit{B} sind DEAs und} \\
+    & L(A) = L(B) \} \\
+    EQ_\text{CFG} &= \{ \langle G, H \rangle \mid \text{\textit{G}, \textit{H} sind CFGs und}\\
+    & L(G) = L(H) \} \\
+    EQ_\text{TM} &= \{ \langle M_1, M_2 \rangle \mid M_i \;\text{sind TMs und}\; \\
+    &L(M_1) = L(M_2) \}
+\end{align*}
+\textit{DEA} ist entscheidbar, \textit{CFG, TM} nicht.
+\paragraph{Leerheitsproblem} Gesucht ist ein Automat, der entscheidet, ob ein anderen Automat irgendein Wort akzeptiert.
+\begin{align*}
+    E_{\text{DEA}} &= \{ \langle A \rangle \mid \\
+    &\text{\textit{A} ist ein DEA und} \; L(A) = \emptyset \} \\
+    E_\text{CFG} &= \{  \langle G \rangle \mid \\
+    & \text{\textit{G} ist eine CFG und} \; L(G) = \emptyset \} \\
+    E_\text{TM} &= \{ \langle M \rangle \mid \\
+    &\text{\textit{M} ist eine TM und} \; L(M) = \emptyset \}
+\end{align*}
+\textit{DEA, CFG} sind entscheidbar, \textit{TM} nicht.
+\paragraph{Halteproblem} Das Halteproblem ist nicht entscheidbar
+\begin{align*}
+    \text{HALT}_{\text{TM}} &= \{ \langle M \rangle \mid \\
+    &\text{\textit{M} ist eine TM und hält auf \textit{w}}\}
+\end{align*}
+\paragraph{Erzeugungsproblem} Gesucht ist ein Automat der entscheidet ob eine CFG alle Wörter erzeugt.
+\begin{align*}
+    ALL_{\text{CFG}} &= \{ \langle G \rangle \mid \text{\textit{G} ist CFG und} \\
+    &L(G) = \Sigma^* \}
+\end{align*}
+\paragraph{Sprachprobleme}
+\begin{itemize}
+    \item Welche natürliche Zahlen sind Quadrate einer natürlichen Zahl \\
+    \begin{align*}
+        L\; & \text{eine Sprache über} \; \Sigma = \{0,1\} \\
+        L &= \left\{ w \in \Sigma^* \left|\; 
+        \begin{minipage}{0.15\textwidth}
+            $w$ ist die Bin"ardarstellung einer Quadratzahl
+        \end{minipage} \right. \right\} 
+    \end{align*}
+    \item Falls $n \in \mathbb{N}$ eine Quadratzahl ist, finde man die Wurzel
+    \begin{align*}
+                L\; & \text{eine Sprache über} \; \Sigma = \{0,1,:\} \\
+        L &= \left\{ w \in \Sigma^* \left|\; 
+        \begin{minipage}{0.15\textwidth}
+            $w$ ist von der Form $w_1\texttt{:}w_2$, wobei $w_i$ Binardarstellungen von Zahlen $n_i$ sind mit $n_1=n_2^2$.
+        \end{minipage} \right. \right\} 
+    \end{align*}
+    \item Hat die quadratische Darstellung $ax^2 +bx + c = 0$ mit $a,b,c \in \mathbb{N}$ reele Lösungen
+        \begin{align*}
+                L\; & \text{eine Sprache über} \; \Sigma = \{0,1,:\} \\
+        L &= \left\{ w \in \Sigma^* \left|\; 
+        \begin{minipage}{0.15\textwidth}
+        $w$ ist von der Form $a\texttt{:}b\texttt{:}c$, wobei $a$, $b$ und $c$ Bin"ardarstellungen der Koeffizienten einer quadratischen Gleichung sind, die reelle L"osungen hat.
+        \end{minipage} \right. \right\} 
+    \end{align*} \\
+    Diese Sprache kann mit einer TM entschieden werden, die die Diskriminante $b^2-4ac$ berechnet und im Zustand $q_{\text{accept}}$ stehen bleibt genau dann, wenn die Diskriminante $\ge 0$ ist.
+    \item Hat die Gleichung $a^n + b^n = c^n$ ganzzahlige Lösungen, wobei mindestens eine der Zahlen $a,b,c$ grösser als 1 sein muss.
+            \begin{align*}
+                L\; & \text{eine Sprache über} \; \Sigma = \{0,1\} \\
+        L &= \left\{ w \in \Sigma^* \left|\; 
+        \begin{minipage}{0.15\textwidth}
+       $w$ ist die Bin"ardarstellung einer nat"urlichen Zahl $n$, f"ur die die Gleichung $a^n+b^n=c^n$ eine ganzzahlige L"osung hat, wobei mindestens eine der Zahlen $a$, $b$ oder $c$ gr"osser als $1$ sein muss.
+        \end{minipage} \right. \right\} 
+    \end{align*} 
+    \item Man finde die Primfaktoren einer Zahl n
+                \begin{align*}
+                L\; & \text{eine Sprache über} \; \Sigma = \{0,1,:\} \\
+        L &= \left\{ w \in \Sigma^* \left|\; 
+        \begin{minipage}{0.15\textwidth}
+            $w$ ist von der Form $n\texttt{:}p_1\texttt{:}n_1\texttt{:}\dots\texttt{:}p_k\texttt{:}n_k$, und es gilt $n=p_1^{n_1}p_2^{n_2}\dots p_k^{n_k}$, wenn man die $p_i$ und $n_i$ als Bin"arzahlen interpretiert.
+        \end{minipage} \right. \right\} 
+    \end{align*}
+    \item Goldbach-Vermutung: Jede Zahl > 2 könne als Summe von zwei Primzahlen geschrieben werden
+    \begin{align*}
+        L\; & \text{eine Sprache über} \; \Sigma = \{0,1\} \\
+        L &= \left\{ w \in \Sigma^* \left|\; 
+        \begin{minipage}{0.15\textwidth}
+        $w$ ist die Bin"arcodierung einer einer geraden Zahl $n$, die als Summe von zwei Primzahlen geschrieben werden kann.
+        \end{minipage} \right. \right\}         
+    \end{align*}
+    \item Primzahlenzwillings-Vermutung: Es gibt unendlich viele Primzahlenzwillinge
+    \begin{align*}
+                L\; & \text{eine Sprache über} \; \Sigma = \{0,1\} \\
+        L &= \left\{ w \in \Sigma^* \left|\; 
+        \begin{minipage}{0.15\textwidth}
+            $w$ ist die Bin"arcodierung einer Zahl $n$, die eine Primzahl ist so, dass $n-2$ oder $n+2$ ebenfalls eine Primzahl ist.
+        \end{minipage} \right. \right\}          
+    \end{align*}
+\end{itemize}

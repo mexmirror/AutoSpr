@@ -1,0 +1,255 @@
+\section*{Stack-Automat}
+Ein Stack-Automat verwendet ein Stack als Errinerung um CFG erkennen zu können.\\
+\begin{tikzpicture}[->,>=stealth',shorten >=1pt,auto,node distance=3cm,semithick]
+  \tikzstyle{every state}=[fill=none,draw=black,text=black]
+
+  \node[state]                   (A)              {$q_0$};
+  \node[state]                   (B) [right of=A] {$q$};
+
+  \path (A)  edge  node {$a, b \rightarrow c$} (B);
+\end{tikzpicture}\\
+Bedeutet, von Zustand \(q_0\) geht es in Zustand \(q\) wenn der Input \(a\) enthält und auf dem Stack \(b\) zuoberst. Dabei wird \(c\) auf den Stack gelegt.
+\section*{Kontextfreie Sprache}
+\begin{align*}
+    L = (V, \Sigma, R, S)
+\end{align*}
+\begin{itemize}
+    \item \(V\): Endliche Menge von Variablen
+    \item \(\Sigma\): Endliche Menge von Zeichen (disjunkt zu \(V\)), Terminalsymbole.
+    \item \(R\) Menge von Regeln
+    \item \(S \in V\): Startvariable
+\end{itemize}
+\paragraph{Grammatik formulieren} Beispiel von Grammatiken mit Terminalsymoblen \(\Sigma = \{0,1\}\):
+\begin{itemize}
+    \item Grammatik die jedes Wort enthält: \(L = \Sigma^* \) \\
+        \begin{align*}
+            W&\rightarrow W{\tt 0} \mid W{\tt 1} \mid \varepsilon
+        \end{align*}
+    \item Wörter, die mit dm gleichen Symbol enden wie sie beginnen:
+        \begin{align*}
+            E&\rightarrow \varepsilon \mid {\tt 0} \mid {\tt 1} \mid  {\tt 0}W{\tt 0} \mid  {\tt 1}W{\tt 1} \\
+            W&\rightarrow W{\tt 0} \mid  W{\tt 1} \mid \varepsilon
+        \end{align*}
+    \item \(L\) enthält alle Wörter gerader Länge:
+        \begin{align*}
+            G&\rightarrow GP \mid \varepsilon\\
+            P&\rightarrow ZZ \\
+            Z&\rightarrow {\tt 0} \mid {\tt 1}
+        \end{align*}
+    \item \(L = \{0^n 1^m | n > m\}\)
+        \begin{align*}
+            S&\rightarrow {\tt 0}S \mid {\tt 0}S{\tt 1} \mid {\tt 0}
+        \end{align*}
+    \item Erkennen von n-Tuple Addition:
+        \begin{align*}
+            S&\rightarrow \text{'{\tt (}'}\; E\; \text{'{\tt )}'}\\
+            E&\rightarrow N\; \text{'{\tt ,}'}\; E\; \text{'{\tt ,}'}\; N\\
+             &\rightarrow N\; \text{'{\tt )}'}\; \text{'{\tt +}'}\; \text{'{\tt (}'}\; N\\
+            N&\rightarrow \dots
+        \end{align*}
+    \item Mindestens so viele o wie s ({\tt o, oo, os, oos, oso})
+        \begin{align*}
+            S &\rightarrow \varepsilon \mid SS \mid oSs \mid oS
+        \end{align*}
+    \item Ausdrücke in korrekten Klammern
+        \begin{align*}
+            \text{min}&\rightarrow \text{number}\\
+            &\rightarrow \text{min}\sqcup \text{min}\\
+            &\rightarrow\text{kl.ausdruck}\\
+            \text{max}&\rightarrow \text{number}\\
+            &\rightarrow \text{max}\sqcap \text{max}\\
+            &\rightarrow\text{kl.ausdruck}\\
+            \text{kl.ausdruck}&\rightarrow (\;\text{min}\;)\\
+            &\rightarrow (\;\text{max}\;)\\
+            \text{number}&\rightarrow\text{digit}\\
+            &\rightarrow\text{number}\;\text{digit}\\
+        \end{align*}
+    \item Vereinfachte LISP Grammatik
+    \begin{align*}
+        \text{liste}&\rightarrow {
+        {\text{'{\tt (}'}}\;
+        \text{lst.elem.}\;
+        {\text{'{\tt )}'}}}
+        \\
+        \text{lst.elem.}&\rightarrow {\varepsilon} \;|\; \text{lst.elem}\;\text{element}
+        \\
+        \text{element}&\rightarrow {\text{liste}} \;|\; {\text{atom}}
+        \\
+        \text{atom}&\rightarrow {\text{zahl}}\;|\;{\text{string}}\;|\;{\text{symbol}}
+        \\
+        \text{zahl}&\rightarrow {\text{ziffer}}\;|\;\text{zahl}\;\text{ziffer}
+        \\
+        \text{symbol}&\rightarrow {\text{buchstabe}} \;|\; \text{symbol}\;\text{bchstb}
+        \\
+        \text{string}&\rightarrow {
+        \text{'{\tt\textquotedblright}'}\; \text{stringinhalt}\;
+        \text{'{\tt\textquotedblright}'}}
+        \\
+        \text{stringinhalt}&\rightarrow {\varepsilon} \;|\; \text{stringinhalt}\;\text{zeichen}
+        \\
+        \text{zeichen}&\rightarrow {\text{ziffer}}\; |\; {\text{buchstabe}}
+    \end{align*}
+    \begin{comment}
+    \item While Grammatik
+    \begin{align*}
+\text{\textsl{while-programm}}&\to{\color{red}\text{\textsl{anweisungsfolge}}}\\
+&\to\varepsilon\\
+\text{\textsl{anweisungsfolge}}
+&\to{\color{blue}\text{\textsl{anweisungsfolge}}\;\text{'{\tt ;}'}\;
+\text{\textsl{anweisung}}}
+\\
+\text{\textsl{anweisung}}
+&\to\text{\color{red}\textsl{zuweisung}}
+\\
+&\to\text{\color{red}\textsl{loop-anweisung}}
+\\
+\text{\textsl{zuweisung}}
+&\to
+{\color{blue}
+\text{\textsl{variable}}\; \text{'{\tt :}'}\, \text{'{\tt =}'}\;
+\textsl{variable}\;\text{\textsl{operator}}\;\text{\textsl{konstante}}}
+\\
+\text{\textsl{operator}}
+&\to\text{'{\tt +}'}\;|\;\text{'{\tt -}'}
+\\
+\text{\textsl{konstante}}&\to\text{\color{red}\textsl{ziffer}}\\
+&\to\text{\textsl{konstante}}\;\text{\textsl{ziffer}}
+\\
+\text{\textsl{ziffer}}&\to 
+\text{'{\tt 0}'}\;|\;
+\text{'{\tt 1}'}\;|\;
+\text{'{\tt 2}'}\;|\;
+\text{'{\tt 3}'}\;|\;
+\text{'{\tt 4}'}\;|\;
+\text{'{\tt 5}'}\;|\;
+\text{'{\tt 6}'}\;|\;
+\text{'{\tt 7}'}\;|\;
+\text{'{\tt 8}'}\;|\;
+\text{'{\tt 9}'}\\
+\text{\textsl{variable}}&\to{\color{yellow} \text{'{\tt x}'}\;\text{\textsl{konstante}}}\\
+\text{\textsl{while-anweisung}}&\to{\color{blue}
+\text{\textsl{while}}\;
+\text{\textsl{variable}}\;
+\text{'{\tt >}'}\;
+\text{'{\tt 0}'}\;
+\text{\textsl{do}}\;
+\text{\textsl{anweisungsfolge}}\;
+\text{\textsl{end}}}\\
+\text{\textsl{while}}&\to
+{\color{green}\text{'{\tt W}'}\; \text{'{\tt H}'}\; \text{'{\tt I}'}\; \text{'{\tt L}'}\; \text{'{\tt E}'}}\\
+\text{\textsl{end}}&\to{\color{green} \text{'{\tt E}'}\; \text{'{\tt N}'}\; \text{'{\tt D}'}}\\
+\text{\textsl{do}}&\to{\color{green} \text{'{\tt D}'}\; \text{'{\tt O}'}} \\
+\end{align*}
+\end{comment}
+    \end{itemize}
+\section*{Pumping Lemma}
+\paragraph{Reguläre Sprachen} Die \textbf{Pumping Lenght} ist die minimale Länge welche ein Wort haben muss, dass es aufgepumpt werden kann. In einem Automaten muss das Wort eine Schleife mindestens einmal durchlaufen haben.
+\begin{align*}
+    w &= xyz \\
+    |y| &> 0 \\
+    |xy| &\leq N \\
+    xy^kz &\in L \quad \forall k \geq 0
+\end{align*}
+\paragraph{Kontextfreie Sprachen} 
+\begin{align*}
+    w &= uvxyz \\
+    \vert vy \vert &> 0 \\
+    \vert vxy \vert &\leq N\\
+    uv^kxy^kz &\in L \text{ für alle } k \in \mathbb{N}
+\end{align*}
+\section*{Chomsky-Normalform} Eine kontextfreie Grammatik ist in Chomsky Normalform, wenn jede Regel in folgender Form ist:
+\begin{align*}
+    A &\rightarrow BC \\
+    A &\rightarrow a \\
+    S &\rightarrow \varepsilon
+\end{align*}
+Wobei gilt: 
+\begin{align*}
+    A &\in V ,\, a \in \Sigma \\
+    B,C &\in V \setminus \{S\} 
+\end{align*}
+\paragraph{CNF herstellen} Algorithmus um eine Sprache in CNF zu bringen mit \(\Sigma = \{a, b\}\):
+\begin{comment}
+  \begin{align*}
+    S &\rightarrow ASA \mid aB \\
+    A &\rightarrow B \mid S \\
+    B &\rightarrow b \mid \varepsilon
+\end{align*}
+\end{comment}
+
+\begin{enumerate}
+    \item Startvariable hinzufügen:
+        \begin{comment}
+  \begin{align*}
+            S_0&\rightarrow S \\
+            S &\rightarrow ASA \mid aB \\
+            A &\rightarrow B \mid S \\
+            B &\rightarrow b \mid \varepsilon
+        \end{align*}
+\end{comment}
+
+    \item \(\varepsilon\)-Übergänge entfernen:
+   \begin{comment}
+   \begin{enumerate}
+        \item \begin{align*}
+            S_0 &\rightarrow S \\
+            S &\rightarrow ASA \mid aB \mid a \\
+            A &\rightarrow B \mid \varepsilon \mid S \\
+            B &\rightarrow b
+        \end{align*}
+        \item \begin{align*}
+            S_0 &\rightarrow S \\
+            S &\rightarrow AS \mid SA \mid ASA \mid aB \mid a \\
+            A &\rightarrow B \mid S \\
+            B &\rightarrow b
+        \end{align*}
+    \end{enumerate}
+\end{comment}
+
+    \item Unit-Rules entfernen:
+    \begin{comment}
+  \begin{enumerate}
+        \item \begin{align*}
+            S_0 &\rightarrow S \\
+            S &\rightarrow ASA \mid AS \mid SA \mid aB \mid a \\
+            A &\rightarrow S \\
+            B &\rightarrow b \\
+            A &\rightarrow b
+        \end{align*}
+        \item \begin{align*}
+            S_0 &\rightarrow S \\
+            S &\rightarrow ASA \mid AS \mid SA \mid aB \mid a \\
+            A &\rightarrow ASA \mid SA \mid SA \mid aB \mid a \mid b \\
+            B &\rightarrow b
+        \end{align*}
+        \item \begin{align*}
+            S_0 &\rightarrow ASA \mid AS \mid SA \mid aB \mid a \\
+            S &\rightarrow ASA \mid SA \mid SA \mid aB \mid a \mid b \\
+            A &\rightarrow ASA \mid SA \mid SA \mid aB \mid a \mid b \\
+            B &\rightarrow b
+        \end{align*}
+    \end{enumerate}
+\end{comment}
+
+    \item Verkettungen:
+    \begin{comment}
+  \begin{enumerate}
+        \item \begin{align*}
+            S_0 &\rightarrow AA_1 \mid AS \mid SA \mid aB \mid a \\
+            S &\rightarrow AA_1 \mid AS \mid SA \mid aB \mid a \\
+            A &\rightarrow AA_1 \mid AS \mid SA \mid aB \mid a \mid b \\
+            A_1 &\rightarrow SA \\
+            B &\rightarrow b
+        \end{align*}
+        \item \begin{align*}
+            S_0 &\rightarrow AA_1 \mid AS \mid SA \mid UB \mid a \\
+            S &\rightarrow AA_1 \mid AS \mid SA \mid UB \mid a \\
+            A &\rightarrow AA_1 \mid AS \mid SA \mid UB \mid a \\
+            A_1 &\rightarrow SA \\
+            U &\rightarrow a \\
+            B &\rightarrow b
+        \end{align*}
+    \end{enumerate}
+\end{comment}
+
+\end{enumerate}
