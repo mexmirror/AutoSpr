@@ -1,4 +1,4 @@
-#Notizen zu AutoSpr Vorlesung
+# Notizen zu AutoSpr Vorlesung
 
 Eine Sammlung wichtiger Ausschnitte aus der Vorlesung Automaten und Sprachen an der HSR. 
 
